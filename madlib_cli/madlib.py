@@ -1,58 +1,41 @@
 import re
 
-
 def read_template(path):
-    if path != "/home/nawrs/python-labs/madlib-cli/assets/great_copy.txt" :
-        if path != "/home/nawrs/python-labs/madlib-cli/assets/great_and_amazing_game.txt" :
+    if path != "assets/sekiro_game.txt" :
+        if path != "assets/great_and_amazing_game.txt" :
             raise FileNotFoundError ("path does not exsist")
-    
-    with open(path) as sekiro:
-        open_sekiro = sekiro.read()
-        return (open_sekiro.strip())
-    
-
+    with open(path) as file:
+        return file.read()
 
 def parse_template(str):
-    result = re.findall(r'\{([^{}]+)\}',str)
-    print(result)
-    x = ()
-    for item in result:
-        y = list(x)
-        y.append(item)
-        x = tuple(y)
-        str = re.sub(r'\{([^{}]+)\}', '{}' ,str)
-    print(str,x)
-    return str,x
+    parts = re.findall(r'\{([^{}]+)\}', str)
+    stripped_template = re.sub(r'\{([^{}]+)\}', '{}', str)
+    stripped_parts = [part.strip() for part in parts]
+    return stripped_template, tuple(stripped_parts)
 
+def merge(stripped_template, user_inputs):
+    return stripped_template.format(*user_inputs)
 
-def merge(str, tuple):
-    y = list(tuple)
-    txt = str.format(*y)
-    return txt
+def play_game(template_path):
+    template = read_template(template_path)
+    stripped_template, parts = parse_template(template)
 
+    user_inputs = []
+    for part in parts:
+        user_input = input(f"Enter a {part}: ")
+        user_inputs.append(user_input)
 
+    madlib = merge(stripped_template, user_inputs)
+    print(madlib)
+
+    with open("assets/complete_sekiro_game.txt", "w") as file:
+        file.write(madlib)
 
 if __name__ == "__main__":
     print('''
 ******** Welcome to the madlib game ********
 ***** in this game you can play by entering what you are asked ;) *****
 ''')
-    
-    template = read_template("/home/nawrs/python-labs/madlib-cli/assets/great_copy.txt")
-    stripped_template, parts = parse_template(template)
 
-    what_user_input = []
-    for part in parts:
-        what_user_input.append(input(f"Enter a {part}: "))
-    x = ()
-    for item in what_user_input:    
-        y = list(x)
-        y.append( item)
-        x = tuple(y)
-    text = merge(stripped_template, x)
-    print(text)
-    with open("/home/nawrs/python-labs/madlib-cli/assets/file_to_write_on_it.txt", "w") as new:
-        opened_new =new.write(text)
-
-
-
+    template_path = "assets/sekiro_game.txt"
+    play_game(template_path)

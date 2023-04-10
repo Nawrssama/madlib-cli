@@ -4,7 +4,7 @@ from madlib_cli.madlib import read_template, parse_template, merge
 
 
 def test_read_template_returns_stripped_string():
-    actual = read_template("/home/nawrs/python-labs/madlib-cli/assets/great_and_amazing_game.txt")
+    actual = read_template("assets/great_and_amazing_game.txt")
     expected = "It was a {Adjective} and {Adjective} {Noun}."
     assert actual == expected
 
