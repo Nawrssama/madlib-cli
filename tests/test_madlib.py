@@ -1,10 +1,9 @@
 import pytest
-
 from madlib_cli.madlib import read_template, parse_template, merge
 
 
 def test_read_template_returns_stripped_string():
-    actual = read_template("assets/great_and_amazing_game.txt")
+    actual = read_template("assets/dark_and_stormy_night_template.txt")
     expected = "It was a {Adjective} and {Adjective} {Noun}."
     assert actual == expected
 
